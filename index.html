@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本東北雪見之旅 9日遊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <!-- App Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-xl relative pb-20">
+        
+        <!-- Header -->
+        <div class="bg-blue-600 text-white p-6 rounded-b-3xl shadow-lg sticky top-0 z-50">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl font-bold">日本東北雪見之旅</h1>
+                    <p class="text-blue-100 text-sm mt-1"><i class="far fa-calendar-alt mr-1"></i> 1/31 - 2/8 (9天8夜)</p>
+                </div>
+                <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                    <i class="fas fa-snowflake text-2xl animate-pulse"></i>
+                </div>
+            </div>
+            
+            <!-- Quick Nav -->
+            <div class="flex overflow-x-auto gap-3 mt-6 pb-2 hide-scrollbar snap-x">
+                <button onclick="scrollToStage('stage1')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-white text-blue-600 rounded-full text-sm font-medium hover:bg-blue-50 transition shadow-sm">
+                    抵達東京
+                </button>
+                <button onclick="scrollToStage('stage2')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
+                    日光遺產
+                </button>
+                <button onclick="scrollToStage('stage3')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
+                    山寺絕景
+                </button>
+                <button onclick="scrollToStage('stage4')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
+                    藏王樹冰
+                </button>
+                <button onclick="scrollToStage('stage5')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
+                    返程購物
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-4 space-y-8" id="content-area">
+            <!-- Content injected by JS -->
+        </div>
+
+        <!-- Footer Info -->
+        <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur border-t border-slate-200 p-3 text-center text-xs text-slate-500">
+            記得確認 SPACIA X 與 新幹線車票
+        </div>
+    </div>
+
+    <script>
+        // Data Structure
+        const tripData = [
+            {
+                id: "stage1",
+                title: "第一階段：抵達與東京下町",
+                dates: "1/31 (六)",
+                focus: "順利抵達、淺草夜景",
+                color: "blue",
+                days: [
+                    {
+                        date: "1/31 (六)",
+                        route: "台北 ✈️ 東京 (淺草)",
+                        events: [
+                            { time: "午間", icon: "fa-plane", type: "transport", title: "桃園機場 → 東京成田", desc: "帶著好心情出發" },
+                            { time: "18:30", icon: "fa-train", type: "transport", title: "前往淺草", desc: "成田快線 / Skyliner 轉乘<br>淺草飯店 Check-in" },
+                            { time: "晚間", icon: "fa-camera", type: "activity", title: "淺草寺夜間散策", desc: "拍攝雷門與仲見世通夜景，享受下町氛圍" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "stage2",
+                title: "第二階段：日光世界遺產與奧日光",
+                dates: "2/1 - 2/2",
+                focus: "二社一寺歷史感、華嚴瀑布壯麗雪景",
+                color: "indigo",
+                days: [
+                    {
+                        date: "2/1 (日)",
+                        route: "東京 ➡️ 日光",
+                        events: [
+                            { time: "09:00", icon: "fa-train", type: "transport", title: "淺草 → 東武日光", desc: "✨ 搭乘 SPACIA X 絕佳體驗" },
+                            { time: "11:00", icon: "fa-suitcase", type: "hotel", title: "抵達日光", desc: "購買巴士通票、飯店寄放行李" },
+                            { time: "午間", icon: "fa-bowl-food", type: "food", title: "午餐時光", desc: "品嚐日光名物湯波料理" },
+                            { time: "下午", icon: "fa-torii-gate", type: "activity", title: "世界遺產巡禮", desc: "東照宮、二荒山神社、輪王寺、神橋" },
+                            { time: "晚間", icon: "fa-utensils", type: "food", title: "晚餐時刻", desc: "享受日光寧靜夜晚" }
+                        ]
+                    },
+                    {
+                        date: "2/2 (一)",
+                        route: "奧日光 (中禪寺湖)",
+                        events: [
+                            { time: "09:05", icon: "fa-bus", type: "transport", title: "日光 → 明智平", desc: "搭乘巴士上山" },
+                            { time: "10:00", icon: "fa-mountain", type: "activity", title: "明智平纜車", desc: "眺望男體山與華嚴瀑布絕景" },
+                            { time: "午間", icon: "fa-bowl-rice", type: "food", title: "淺井精肉店", desc: "知名炸豬排 / 定食 (需排隊)" },
+                            { time: "下午", icon: "fa-water", type: "activity", title: "華嚴瀑布 & 中禪寺湖", desc: "觀瀑台賞冰瀑、湖畔散步、二荒山神社中宮祠、咖啡廳休憩" },
+                            { time: "晚間", icon: "fa-bus", type: "transport", title: "返回日光市區", desc: "晚餐並休息" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "stage3",
+                title: "第三階段：前進山形與山寺絕景",
+                dates: "2/3 (二)",
+                focus: "水墨畫般的山寺雪景、山形牛美食",
+                color: "slate",
+                days: [
+                    {
+                        date: "2/3 (二)",
+                        route: "日光 ➡️ 宇都宮 ➡️ 山形",
+                        events: [
+                            { time: "07:32", icon: "fa-train", type: "transport", title: "日光 → 山形", desc: "JR日光線至宇都宮轉新幹線<br>抵達山形站後飯店放行李" },
+                            { time: "午間", icon: "fa-train", type: "transport", title: "移動至山寺", desc: "搭乘JR仙山線" },
+                            { time: "午餐", icon: "fa-shrimp", type: "food", title: "Endou (えんどう)", desc: "位於山寺登山口附近" },
+                            { time: "下午", icon: "fa-person-hiking", type: "activity", title: "寶珠山立石寺 (山寺)", desc: "❄️ 雪中登山，挑戰千階梯看絕景 (務必穿著防滑鞋/冰爪)" },
+                            { time: "晚間", icon: "fa-drumstick-bite", type: "food", title: "山形牛大餐", desc: "Shabu-shabu / 壽喜燒 (極致享受)" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "stage4",
+                title: "第四階段：藏王樹冰與滑雪",
+                dates: "2/4 - 2/6",
+                focus: "藏王樹冰(雪怪)、滑雪、溫泉、成吉思汗烤肉",
+                color: "cyan",
+                days: [
+                    {
+                        date: "2/4 (三)",
+                        route: "山形 ➡️ 藏王溫泉",
+                        events: [
+                            { time: "08:40", icon: "fa-bus", type: "transport", title: "前往藏王溫泉", desc: "巴士移動，抵達後民宿放行李" },
+                            { time: "早/午", icon: "fa-person-skiing", type: "activity", title: "藏王滑雪場", desc: "滑雪初體驗 / 滑雪場午餐" },
+                            { time: "晚間", icon: "fa-mug-hot", type: "food", title: "藏王在地料理", desc: "享用溫泉美食" }
+                        ]
+                    },
+                    {
+                        date: "2/5 (四)",
+                        route: "藏王溫泉 (全日滑雪)",
+                        events: [
+                            { time: "全日", icon: "fa-person-skiing-nordic", type: "activity", title: "滑雪 / 樹冰巡禮", desc: "搭乘纜車至山頂線觀賞雪怪 (Juhyo)" },
+                            { time: "晚間", icon: "fa-fire-burner", type: "food", title: "どさん娘 (Dosanko)", desc: "人氣成吉思汗烤肉 / 拉麵" }
+                        ]
+                    },
+                    {
+                        date: "2/6 (五)",
+                        route: "藏王 ➡️ 山形",
+                        events: [
+                            { time: "早/午", icon: "fa-snowflake", type: "activity", title: "最後滑雪時光", desc: "把握上午時間" },
+                            { time: "下午", icon: "fa-bus", type: "transport", title: "藏王 → 山形市區", desc: "返回市區，飯店放行李" },
+                            { time: "晚間", icon: "fa-utensils", type: "food", title: "平田牧場", desc: "金華豬炸豬排" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "stage5",
+                title: "第五階段：返回東京與採購",
+                dates: "2/7 - 2/8",
+                focus: "上野阿美橫町購物、最後衝刺",
+                color: "emerald",
+                days: [
+                    {
+                        date: "2/7 (六)",
+                        route: "山形 ➡️ 東京",
+                        events: [
+                            { time: "08:03", icon: "fa-train", type: "transport", title: "山形新幹線 → 上野", desc: "返回東京，上野/御徒町飯店放行李" },
+                            { time: "下午", icon: "fa-bag-shopping", type: "activity", title: "自由行程", desc: "上野阿美橫町、秋葉原或銀座購物" },
+                            { time: "晚間", icon: "fa-beer-mug-empty", type: "food", title: "居酒屋晚餐", desc: "慶祝旅程最後一晚" }
+                        ]
+                    },
+                    {
+                        date: "2/8 (日)",
+                        route: "東京 ✈️ 台北",
+                        events: [
+                            { time: "早上", icon: "fa-bread-slice", type: "food", title: "早餐 / 最後整理", desc: "收拾行李，準備退房" },
+                            { time: "11:37", icon: "fa-train", type: "transport", title: "前往機場", desc: "京成上野/日暮里 → 成田機場第二航廈" },
+                            { time: "14:35", icon: "fa-plane-departure", type: "transport", title: "東京成田 → 台灣桃園", desc: "滿載回憶返家" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // Render Function
+        function renderTrip() {
+            const container = document.getElementById('content-area');
+            let html = '';
+
+            tripData.forEach(stage => {
+                html += `
+                    <div id="${stage.id}" class="scroll-mt-32 mb-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-${stage.color}-100 text-${stage.color}-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                                ${stage.dates}
+                            </span>
+                            <span class="text-xs text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">
+                                <i class="fas fa-star text-yellow-400 mr-1"></i>${stage.focus}
+                            </span>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-800 mb-4 pl-1 border-l-4 border-${stage.color}-500">
+                            ${stage.title.split("：")[1]}
+                        </h2>
+                `;
+
+                stage.days.forEach(day => {
+                    html += `
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
+                            <!-- Day Header -->
+                            <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-100">
+                                <div class="font-bold text-lg text-slate-800">${day.date}</div>
+                                <div class="text-sm font-medium text-slate-500 flex items-center">
+                                    <i class="fas fa-map-marker-alt text-${stage.color}-500 mr-1"></i>
+                                    ${day.route}
+                                </div>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="relative space-y-6 pl-2">
+                    `;
+
+                    day.events.forEach(event => {
+                        let iconColor = 'text-slate-400';
+                        let iconBg = 'bg-slate-100';
+                        if(event.type === 'transport') { iconColor = 'text-blue-500'; iconBg = 'bg-blue-50'; }
+                        if(event.type === 'food') { iconColor = 'text-amber-500'; iconBg = 'bg-amber-50'; }
+                        if(event.type === 'activity') { iconColor = 'text-emerald-500'; iconBg = 'bg-emerald-50'; }
+                        if(event.type === 'hotel') { iconColor = 'text-indigo-500'; iconBg = 'bg-indigo-50'; }
+
+                        html += `
+                                <div class="relative flex items-start gap-4 timeline-item z-10">
+                                    <div class="timeline-line"></div>
+                                    <div class="flex flex-col items-center w-12 flex-shrink-0 pt-1">
+                                        <span class="text-xs font-bold text-slate-400 mb-1">${event.time}</span>
+                                        <div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center z-10 ring-4 ring-white">
+                                            <i class="fas ${event.icon} ${iconColor} text-xs"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 pt-1 pb-2">
+                                        <h3 class="font-bold text-slate-700 leading-tight">${event.title}</h3>
+                                        <p class="text-sm text-slate-500 mt-1 leading-relaxed">${event.desc}</p>
+                                    </div>
+                                </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Scroll Function
+        function scrollToStage(id) {
+            const element = document.getElementById(id);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderTrip);
+
+    </script>
+</body>
+</html>
