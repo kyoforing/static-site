@@ -1,304 +1,1394 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日本東北雪見之旅 9日遊</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans TC', sans-serif; }
-        .timeline-line {
-            position: absolute;
-            left: 24px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: #e2e8f0;
-            z-index: 0;
-        }
-        .timeline-item:last-child .timeline-line {
-            display: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第七章：需要學習的技能 — Vibe Coding 互動式學習</title>
+  <style>
+    /* ===== CSS Custom Properties 配色方案 ===== */
+    :root {
+      --color-primary: #2563eb;
+      --color-primary-light: #3b82f6;
+      --color-primary-dark: #1d4ed8;
+      --color-secondary: #7c3aed;
+      --color-secondary-light: #8b5cf6;
+      --color-accent: #f59e0b;
+      --color-bg: #f8fafc;
+      --color-bg-white: #ffffff;
+      --color-bg-card: #ffffff;
+      --color-bg-section: #f1f5f9;
+      --color-text: #1e293b;
+      --color-text-light: #64748b;
+      --color-text-muted: #94a3b8;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --color-error: #dc2626;
+      --color-shadow: rgba(0, 0, 0, 0.08);
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      --font-size-base: 1rem;
+      --font-size-sm: 0.875rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.5rem;
+      --font-size-2xl: 2rem;
+      --font-size-3xl: 2.5rem;
+      --line-height-base: 1.7;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-2xl: 3rem;
+      --spacing-3xl: 4rem;
+      --border-radius: 0.5rem;
+      --border-radius-lg: 1rem;
+      --max-width: 960px;
+      --transition-fast: 0.15s ease;
+      --transition-base: 0.3s ease;
+    }
+
+    /* ===== CSS Reset ===== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-base);
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    a:hover {
+      color: var(--color-primary-dark);
+    }
+
+    ul, ol {
+      list-style: none;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    /* ===== Navigation Bar 導覽列 ===== */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--color-bg-white);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: 0 2px 8px var(--color-shadow);
+    }
+
+    .nav-bar__list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--spacing-sm) var(--spacing-md);
+      gap: var(--spacing-xs);
+    }
+
+    .nav-bar__item {
+      flex-shrink: 0;
+    }
+
+    .nav-bar__link {
+      display: block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      color: var(--color-text-light);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      border-radius: var(--border-radius);
+      transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .nav-bar__link:hover {
+      color: var(--color-primary);
+      background-color: var(--color-bg-section);
+    }
+
+    .nav-bar__link.active {
+      color: var(--color-bg-white);
+      background-color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .nav-bar__link.active:hover {
+      background-color: var(--color-primary-dark);
+      color: var(--color-bg-white);
+    }
+
+    .nav-bar__link:active {
+      transform: scale(0.96);
+    }
+
+    /* ===== Hero Section 標題區 ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: var(--color-bg-white);
+      text-align: center;
+      padding: var(--spacing-3xl) var(--spacing-md);
+    }
+
+    .hero__title {
+      font-size: var(--font-size-3xl);
+      font-weight: 700;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .hero__intro {
+      font-size: var(--font-size-lg);
+      line-height: var(--line-height-base);
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.92;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: var(--spacing-2xl) var(--spacing-md);
+      }
+
+      .hero__title {
+        font-size: var(--font-size-2xl);
+      }
+
+      .hero__intro {
+        font-size: var(--font-size-base);
+      }
+    }
+
+    /* ===== Navigation Bar 響應式設計 ===== */
+    @media (max-width: 768px) {
+      .nav-bar__list {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: var(--spacing-xs) var(--spacing-sm);
+      }
+
+      .nav-bar__list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-bar__link {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-xs) var(--spacing-sm);
+      }
+    }
+
+    /* ===== Content Section 章節內容區 ===== */
+    .content-section {
+      padding: var(--spacing-3xl) var(--spacing-md);
+    }
+
+    .content-section:nth-child(even) {
+      background-color: var(--color-bg-section);
+    }
+
+    .content-section__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .content-section__title {
+      font-size: var(--font-size-2xl);
+      color: var(--color-primary-dark);
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 3px solid var(--color-primary);
+      display: inline-block;
+    }
+
+    .content-section__subtitle {
+      font-size: var(--font-size-xl);
+      color: var(--color-text);
+      margin-top: var(--spacing-xl);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .content-section p {
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text);
+      line-height: var(--line-height-base);
+    }
+
+    .content-section blockquote {
+      border-left: 4px solid var(--color-secondary);
+      background-color: var(--color-bg-white);
+      padding: var(--spacing-lg) var(--spacing-xl);
+      margin: var(--spacing-lg) 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      font-style: italic;
+      color: var(--color-text);
+      box-shadow: 0 2px 6px var(--color-shadow);
+    }
+
+    .content-section blockquote cite {
+      display: block;
+      margin-top: var(--spacing-sm);
+      font-style: normal;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-light);
+    }
+
+    .content-section ul {
+      list-style: disc;
+      padding-left: var(--spacing-xl);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .content-section ul li {
+      margin-bottom: var(--spacing-sm);
+      line-height: var(--line-height-base);
+    }
+
+    .content-section ol {
+      list-style: decimal;
+      padding-left: var(--spacing-xl);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .content-section ol li {
+      margin-bottom: var(--spacing-sm);
+      line-height: var(--line-height-base);
+    }
+
+    /* ===== Comparison Grid 對比卡片雙欄佈局 ===== */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .comparison-grid .concept-card {
+      margin: 0;
+    }
+
+    .comparison-grid .concept-card--isabella {
+      border-left: 4px solid var(--color-primary);
+    }
+
+    .comparison-grid .concept-card--vincent {
+      border-left: 4px solid var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .concept-card {
+      background-color: var(--color-bg-white);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      margin: var(--spacing-lg) 0;
+      box-shadow: 0 2px 8px var(--color-shadow);
+      border: 1px solid var(--color-border);
+    }
+
+    .concept-card__title {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05));
+      border: 1px solid var(--color-primary-light);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .values-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      margin: var(--spacing-lg) 0;
+    }
+
+    .values-list__item {
+      background-color: var(--color-bg-white);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-left: 4px solid var(--color-accent);
+      box-shadow: 0 1px 4px var(--color-shadow);
+    }
+
+    .values-list__item strong {
+      color: var(--color-primary-dark);
+    }
+
+    /* ===== Key Concept Highlighting 關鍵概念高亮 ===== */
+    .content-section strong {
+      color: var(--color-primary-dark);
+      font-weight: 700;
+    }
+
+    .content-section em {
+      color: var(--color-secondary);
+      font-style: italic;
+    }
+
+    /* ===== Card & Highlight Hover Effects 卡片互動效果 ===== */
+    .concept-card {
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .concept-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--color-shadow);
+    }
+
+    .highlight-box {
+      position: relative;
+      transition: border-color var(--transition-base);
+    }
+
+    /* ===== Section Entrance Animation 區塊進場動畫 ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .content-section__inner,
+    .quiz-section__inner {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .content-section__inner.visible,
+    .quiz-section__inner.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .highlight-box::before {
+      content: '💡';
+      position: absolute;
+      top: calc(var(--spacing-lg) * -0.5);
+      left: var(--spacing-md);
+      font-size: var(--font-size-lg);
+      background-color: var(--color-bg);
+      padding: 0 var(--spacing-xs);
+    }
+
+    .content-section:nth-child(even) .highlight-box::before {
+      background-color: var(--color-bg-section);
+    }
+
+    /* ===== Responsive 響應式字體大小與間距 ===== */
+    @media (max-width: 768px) {
+      .content-section {
+        padding: var(--spacing-2xl) var(--spacing-md);
+      }
+
+      .content-section__title {
+        font-size: var(--font-size-xl);
+      }
+
+      .content-section__subtitle {
+        font-size: var(--font-size-lg);
+      }
+
+      .content-section p {
+        font-size: var(--font-size-sm);
+      }
+
+      .content-section blockquote {
+        padding: var(--spacing-md) var(--spacing-lg);
+        margin: var(--spacing-md) 0;
+        font-size: var(--font-size-sm);
+      }
+
+      .concept-card {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md) 0;
+      }
+
+      .highlight-box {
+        padding: var(--spacing-md);
+        margin: var(--spacing-md) 0;
+        font-size: var(--font-size-sm);
+      }
+
+      .values-list {
+        margin: var(--spacing-md) 0;
+        gap: var(--spacing-sm);
+      }
+
+      .values-list__item {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+      }
+
+      .content-section ul,
+      .content-section ol {
+        font-size: var(--font-size-sm);
+        padding-left: var(--spacing-lg);
+      }
+    }
+
+    /* ===== Quiz Section 測驗區 ===== */
+    .quiz-section {
+      padding: var(--spacing-3xl) var(--spacing-md);
+      background-color: var(--color-bg-section);
+    }
+
+    .quiz-section__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .quiz-section__title {
+      font-size: var(--font-size-2xl);
+      color: var(--color-primary-dark);
+      margin-bottom: var(--spacing-xl);
+      text-align: center;
+    }
+
+    .quiz-question {
+      background-color: var(--color-bg-white);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: 0 2px 8px var(--color-shadow);
+      border: 1px solid var(--color-border);
+    }
+
+    .quiz-question__text {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .quiz-question__options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .quiz-option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: var(--spacing-md) var(--spacing-lg);
+      background-color: var(--color-bg);
+      border: 2px solid var(--color-border);
+      border-radius: var(--border-radius);
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .quiz-option-btn:hover {
+      border-color: var(--color-primary-light);
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+
+    .quiz-option-btn:active {
+      transform: scale(0.98);
+    }
+
+    .quiz-option-btn.selected {
+      border-color: var(--color-primary);
+      background-color: rgba(37, 99, 235, 0.1);
+      font-weight: 600;
+    }
+
+    .quiz-submit-area {
+      text-align: center;
+      margin-top: var(--spacing-xl);
+    }
+
+    .quiz-submit-btn {
+      display: inline-block;
+      padding: var(--spacing-md) var(--spacing-2xl);
+      background-color: var(--color-primary);
+      color: var(--color-bg-white);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .quiz-submit-btn:hover {
+      background-color: var(--color-primary-dark);
+    }
+
+    .quiz-submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .quiz-message {
+      text-align: center;
+      margin-top: var(--spacing-md);
+      font-size: var(--font-size-base);
+      color: var(--color-error);
+      min-height: 1.5em;
+    }
+
+    .quiz-result {
+      display: none;
+      background-color: var(--color-bg-white);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      margin-top: var(--spacing-xl);
+      box-shadow: 0 2px 8px var(--color-shadow);
+      border: 1px solid var(--color-border);
+    }
+
+    .quiz-result__score {
+      text-align: center;
+      font-size: var(--font-size-3xl);
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .quiz-result__feedback {
+      text-align: center;
+      font-size: var(--font-size-lg);
+      color: var(--color-text);
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .quiz-result__item {
+      background-color: var(--color-bg);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+      border-left: 4px solid var(--color-border);
+    }
+
+    .quiz-result__item--correct {
+      border-left-color: var(--color-success);
+    }
+
+    .quiz-result__item--incorrect {
+      border-left-color: var(--color-error);
+    }
+
+    .quiz-result__item-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-sm);
+      font-weight: 600;
+      font-size: var(--font-size-base);
+    }
+
+    .quiz-result__item-indicator {
+      font-size: var(--font-size-lg);
+    }
+
+    .quiz-result__item-answer {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-light);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .quiz-result__item-answer--correct {
+      color: var(--color-success);
+      font-weight: 600;
+    }
+
+    .quiz-option-btn.correct {
+      border-color: var(--color-success);
+      background-color: rgba(22, 163, 74, 0.1);
+    }
+
+    .quiz-option-btn.incorrect {
+      border-color: var(--color-error);
+      background-color: rgba(220, 38, 38, 0.1);
+    }
+
+    .quiz-reset-btn {
+      display: inline-block;
+      padding: var(--spacing-md) var(--spacing-2xl);
+      background-color: var(--color-secondary);
+      color: var(--color-bg-white);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      margin-top: var(--spacing-xl);
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .quiz-reset-btn:hover {
+      background-color: var(--color-secondary-light);
+    }
+
+    .quiz-reset-btn:active {
+      transform: scale(0.98);
+    }
+
+    @media (max-width: 768px) {
+      .quiz-section {
+        padding: var(--spacing-2xl) var(--spacing-md);
+      }
+
+      .quiz-section__title {
+        font-size: var(--font-size-xl);
+      }
+
+      .quiz-question {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .quiz-question__text {
+        font-size: var(--font-size-base);
+      }
+
+      .quiz-option-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+      }
+
+      .quiz-submit-btn {
+        padding: var(--spacing-sm) var(--spacing-xl);
+        font-size: var(--font-size-base);
+      }
+
+      .quiz-result {
+        padding: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+      }
+
+      .quiz-result__score {
+        font-size: var(--font-size-2xl);
+      }
+
+      .quiz-result__feedback {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+      }
+
+      .quiz-result__item {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .quiz-result__item-header {
+        font-size: var(--font-size-sm);
+      }
+
+      .quiz-reset-btn {
+        padding: var(--spacing-sm) var(--spacing-xl);
+        font-size: var(--font-size-base);
+      }
+    }
+  </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body>
 
-    <!-- App Container -->
-    <div class="max-w-md mx-auto bg-white min-h-screen shadow-xl relative pb-20">
-        
-        <!-- Header -->
-        <div class="bg-blue-600 text-white p-6 rounded-b-3xl shadow-lg sticky top-0 z-50">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h1 class="text-2xl font-bold">日本東北雪見之旅</h1>
-                    <p class="text-blue-100 text-sm mt-1"><i class="far fa-calendar-alt mr-1"></i> 1/31 - 2/8 (9天8夜)</p>
-                </div>
-                <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
-                    <i class="fas fa-snowflake text-2xl animate-pulse"></i>
-                </div>
-            </div>
-            
-            <!-- Quick Nav -->
-            <div class="flex overflow-x-auto gap-3 mt-6 pb-2 hide-scrollbar snap-x">
-                <button onclick="scrollToStage('stage1')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-white text-blue-600 rounded-full text-sm font-medium hover:bg-blue-50 transition shadow-sm">
-                    抵達東京
-                </button>
-                <button onclick="scrollToStage('stage2')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
-                    日光遺產
-                </button>
-                <button onclick="scrollToStage('stage3')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
-                    山寺絕景
-                </button>
-                <button onclick="scrollToStage('stage4')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
-                    藏王樹冰
-                </button>
-                <button onclick="scrollToStage('stage5')" class="snap-start flex-shrink-0 px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm font-medium border border-blue-400 hover:bg-blue-400 transition">
-                    返程購物
-                </button>
-            </div>
+  <!-- Navigation Bar 導覽列 -->
+  <nav class="nav-bar" aria-label="章節導覽">
+    <ul class="nav-bar__list">
+      <li class="nav-bar__item"><a href="#section-7-1" class="nav-bar__link">7-1 回饋迴路</a></li>
+      <li class="nav-bar__item"><a href="#section-7-2" class="nav-bar__link">7-2 模組化系統</a></li>
+      <li class="nav-bar__item"><a href="#section-7-3" class="nav-bar__link">7-3 擁抱學習</a></li>
+      <li class="nav-bar__item"><a href="#section-7-4" class="nav-bar__link">7-4 精進技術</a></li>
+      <li class="nav-bar__item"><a href="#section-7-5" class="nav-bar__link">7-5 小結</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section 標題區 -->
+  <header class="hero">
+    <h1 class="hero__title">第七章：需要學習的技能</h1>
+    <p class="hero__intro">在 AI 時代，程式開發的方式正在改變，但有些核心技能反而變得更加重要。本章探討如何建立快速回饋迴路、打造模組化系統、重新擁抱學習，以及透過熱情精進技術——這些是每位開發者在 Vibe Coding 時代不可或缺的能力。</p>
+  </header>
+
+  <!-- Section 7-1：建立快速、頻繁的回饋迴路 -->
+  <section id="section-7-1" class="content-section">
+    <div class="content-section__inner">
+      <h2 class="content-section__title">7-1 建立快速、頻繁的回饋迴路</h2>
+
+      <p>在軟體開發的世界裡，回饋迴路的速度決定了你學習與改進的速度。就像兩位主廚的故事所揭示的——快速回饋是卓越與平庸之間的分水嶺。</p>
+
+      <h3 class="content-section__subtitle">🍳 Isabella 主廚 vs Vincent 主廚</h3>
+
+      <div class="comparison-grid">
+        <div class="concept-card concept-card--isabella">
+          <p class="concept-card__title">Isabella 主廚</p>
+          <p>Isabella 在烹飪過程中不斷試味、調整，每一步都建立即時的回饋迴路。她品嚐每一道醬汁、檢查每一塊肉的熟度，在問題變大之前就發現並修正。這種持續的小幅調整讓她的料理始終保持高水準。</p>
         </div>
 
-        <!-- Content Area -->
-        <div class="p-4 space-y-8" id="content-area">
-            <!-- Content injected by JS -->
+        <div class="concept-card concept-card--vincent">
+          <p class="concept-card__title">Vincent 主廚</p>
+          <p>Vincent 則是按照食譜一步步執行，直到最後才檢查成品。當他發現問題時，往往已經太遲了——醬汁太鹹、肉烤過頭，整道菜可能需要重做。缺乏中間的回饋點，讓錯誤不斷累積。</p>
         </div>
+      </div>
 
-        <!-- Footer Info -->
-        <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur border-t border-slate-200 p-3 text-center text-xs text-slate-500">
-            記得確認 SPACIA X 與 新幹線車票
-        </div>
+      <h3 class="content-section__subtitle">🤖 與 AI 互動的回饋迴路</h3>
+
+      <p>在 Vibe Coding 的時代，與 AI 的互動本身就是一個回饋迴路。你給 AI 一個指令（prompt），AI 生成程式碼，你立即檢視結果、測試行為，然後根據回饋調整下一個指令。這個循環越快、越頻繁，你就能越快逼近理想的結果。</p>
+
+      <div class="concept-card">
+        <p class="concept-card__title">與 AI 互動的回饋迴路核心原則</p>
+        <ul>
+          <li>每次與 AI 的互動都是一個回饋點——觀察結果、學習、調整</li>
+          <li>小步快跑：給 AI 小而明確的指令，比一次丟出龐大需求更有效</li>
+          <li>即時驗證 AI 生成的結果，不要等到最後才檢查</li>
+          <li>從 AI 的回應中學習模式，逐步提升你的 prompt 技巧</li>
+        </ul>
+      </div>
+
+      <blockquote>
+        就像 Isabella 主廚在每一步都試味一樣，與 AI 協作時，你需要在每一輪互動後都檢視成果。快速回饋迴路不只是技術流程，更是一種與 AI 共同創作的節奏。
+      </blockquote>
     </div>
+  </section>
 
-    <script>
-        // Data Structure
-        const tripData = [
-            {
-                id: "stage1",
-                title: "第一階段：抵達與東京下町",
-                dates: "1/31 (六)",
-                focus: "順利抵達、淺草夜景",
-                color: "blue",
-                days: [
-                    {
-                        date: "1/31 (六)",
-                        route: "台北 ✈️ 東京 (淺草)",
-                        events: [
-                            { time: "午間", icon: "fa-plane", type: "transport", title: "桃園機場 → 東京成田", desc: "帶著好心情出發" },
-                            { time: "18:30", icon: "fa-train", type: "transport", title: "前往淺草", desc: "成田快線 / Skyliner 轉乘<br>淺草飯店 Check-in" },
-                            { time: "晚間", icon: "fa-camera", type: "activity", title: "淺草寺夜間散策", desc: "拍攝雷門與仲見世通夜景，享受下町氛圍" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "stage2",
-                title: "第二階段：日光世界遺產與奧日光",
-                dates: "2/1 - 2/2",
-                focus: "二社一寺歷史感、華嚴瀑布壯麗雪景",
-                color: "indigo",
-                days: [
-                    {
-                        date: "2/1 (日)",
-                        route: "東京 ➡️ 日光",
-                        events: [
-                            { time: "09:00", icon: "fa-train", type: "transport", title: "淺草 → 東武日光", desc: "✨ 搭乘 SPACIA X 絕佳體驗" },
-                            { time: "11:00", icon: "fa-suitcase", type: "hotel", title: "抵達日光", desc: "購買巴士通票、飯店寄放行李" },
-                            { time: "午間", icon: "fa-bowl-food", type: "food", title: "午餐時光", desc: "品嚐日光名物湯波料理" },
-                            { time: "下午", icon: "fa-torii-gate", type: "activity", title: "世界遺產巡禮", desc: "東照宮、二荒山神社、輪王寺、神橋" },
-                            { time: "晚間", icon: "fa-utensils", type: "food", title: "晚餐時刻", desc: "享受日光寧靜夜晚" }
-                        ]
-                    },
-                    {
-                        date: "2/2 (一)",
-                        route: "奧日光 (中禪寺湖)",
-                        events: [
-                            { time: "09:05", icon: "fa-bus", type: "transport", title: "日光 → 明智平", desc: "搭乘巴士上山" },
-                            { time: "10:00", icon: "fa-mountain", type: "activity", title: "明智平纜車", desc: "眺望男體山與華嚴瀑布絕景" },
-                            { time: "午間", icon: "fa-bowl-rice", type: "food", title: "淺井精肉店", desc: "知名炸豬排 / 定食 (需排隊)" },
-                            { time: "下午", icon: "fa-water", type: "activity", title: "華嚴瀑布 & 中禪寺湖", desc: "觀瀑台賞冰瀑、湖畔散步、二荒山神社中宮祠、咖啡廳休憩" },
-                            { time: "晚間", icon: "fa-bus", type: "transport", title: "返回日光市區", desc: "晚餐並休息" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "stage3",
-                title: "第三階段：前進山形與山寺絕景",
-                dates: "2/3 (二)",
-                focus: "水墨畫般的山寺雪景、山形牛美食",
-                color: "slate",
-                days: [
-                    {
-                        date: "2/3 (二)",
-                        route: "日光 ➡️ 宇都宮 ➡️ 山形",
-                        events: [
-                            { time: "07:32", icon: "fa-train", type: "transport", title: "日光 → 山形", desc: "JR日光線至宇都宮轉新幹線<br>抵達山形站後飯店放行李" },
-                            { time: "午間", icon: "fa-train", type: "transport", title: "移動至山寺", desc: "搭乘JR仙山線" },
-                            { time: "午餐", icon: "fa-shrimp", type: "food", title: "Endou (えんどう)", desc: "位於山寺登山口附近" },
-                            { time: "下午", icon: "fa-person-hiking", type: "activity", title: "寶珠山立石寺 (山寺)", desc: "❄️ 雪中登山，挑戰千階梯看絕景 (務必穿著防滑鞋/冰爪)" },
-                            { time: "晚間", icon: "fa-drumstick-bite", type: "food", title: "山形牛大餐", desc: "Shabu-shabu / 壽喜燒 (極致享受)" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "stage4",
-                title: "第四階段：藏王樹冰與滑雪",
-                dates: "2/4 - 2/6",
-                focus: "藏王樹冰(雪怪)、滑雪、溫泉、成吉思汗烤肉",
-                color: "cyan",
-                days: [
-                    {
-                        date: "2/4 (三)",
-                        route: "山形 ➡️ 藏王溫泉",
-                        events: [
-                            { time: "08:40", icon: "fa-bus", type: "transport", title: "前往藏王溫泉", desc: "巴士移動，抵達後民宿放行李" },
-                            { time: "早/午", icon: "fa-person-skiing", type: "activity", title: "藏王滑雪場", desc: "滑雪初體驗 / 滑雪場午餐" },
-                            { time: "晚間", icon: "fa-mug-hot", type: "food", title: "藏王在地料理", desc: "享用溫泉美食" }
-                        ]
-                    },
-                    {
-                        date: "2/5 (四)",
-                        route: "藏王溫泉 (全日滑雪)",
-                        events: [
-                            { time: "全日", icon: "fa-person-skiing-nordic", type: "activity", title: "滑雪 / 樹冰巡禮", desc: "搭乘纜車至山頂線觀賞雪怪 (Juhyo)" },
-                            { time: "晚間", icon: "fa-fire-burner", type: "food", title: "どさん娘 (Dosanko)", desc: "人氣成吉思汗烤肉 / 拉麵" }
-                        ]
-                    },
-                    {
-                        date: "2/6 (五)",
-                        route: "藏王 ➡️ 山形",
-                        events: [
-                            { time: "早/午", icon: "fa-snowflake", type: "activity", title: "最後滑雪時光", desc: "把握上午時間" },
-                            { time: "下午", icon: "fa-bus", type: "transport", title: "藏王 → 山形市區", desc: "返回市區，飯店放行李" },
-                            { time: "晚間", icon: "fa-utensils", type: "food", title: "平田牧場", desc: "金華豬炸豬排" }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "stage5",
-                title: "第五階段：返回東京與採購",
-                dates: "2/7 - 2/8",
-                focus: "上野阿美橫町購物、最後衝刺",
-                color: "emerald",
-                days: [
-                    {
-                        date: "2/7 (六)",
-                        route: "山形 ➡️ 東京",
-                        events: [
-                            { time: "08:03", icon: "fa-train", type: "transport", title: "山形新幹線 → 上野", desc: "返回東京，上野/御徒町飯店放行李" },
-                            { time: "下午", icon: "fa-bag-shopping", type: "activity", title: "自由行程", desc: "上野阿美橫町、秋葉原或銀座購物" },
-                            { time: "晚間", icon: "fa-beer-mug-empty", type: "food", title: "居酒屋晚餐", desc: "慶祝旅程最後一晚" }
-                        ]
-                    },
-                    {
-                        date: "2/8 (日)",
-                        route: "東京 ✈️ 台北",
-                        events: [
-                            { time: "早上", icon: "fa-bread-slice", type: "food", title: "早餐 / 最後整理", desc: "收拾行李，準備退房" },
-                            { time: "11:37", icon: "fa-train", type: "transport", title: "前往機場", desc: "京成上野/日暮里 → 成田機場第二航廈" },
-                            { time: "14:35", icon: "fa-plane-departure", type: "transport", title: "東京成田 → 台灣桃園", desc: "滿載回憶返家" }
-                        ]
-                    }
-                ]
-            }
-        ];
+  <!-- Section 7-2：建立模組化系統 -->
+  <section id="section-7-2" class="content-section">
+    <div class="content-section__inner">
+      <h2 class="content-section__title">7-2 建立模組化系統</h2>
 
-        // Render Function
-        function renderTrip() {
-            const container = document.getElementById('content-area');
-            let html = '';
+      <p>模組化不只是一種程式設計技巧，更是一種決定專案能否長期存活的關鍵決策。沒有模組化的專案一開始可能跑得飛快，但隨著複雜度增長，速度會急劇下降，最終陷入難以維護的泥沼。</p>
 
-            tripData.forEach(stage => {
-                html += `
-                    <div id="${stage.id}" class="scroll-mt-32 mb-8">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-${stage.color}-100 text-${stage.color}-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                                ${stage.dates}
-                            </span>
-                            <span class="text-xs text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded">
-                                <i class="fas fa-star text-yellow-400 mr-1"></i>${stage.focus}
-                            </span>
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800 mb-4 pl-1 border-l-4 border-${stage.color}-500">
-                            ${stage.title.split("：")[1]}
-                        </h2>
-                `;
+      <h3 class="content-section__subtitle">🍳 Isabella 主廚 vs Vincent 主廚——廚房管理篇</h3>
 
-                stage.days.forEach(day => {
-                    html += `
-                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 mb-4 relative overflow-hidden">
-                            <!-- Day Header -->
-                            <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-100">
-                                <div class="font-bold text-lg text-slate-800">${day.date}</div>
-                                <div class="text-sm font-medium text-slate-500 flex items-center">
-                                    <i class="fas fa-map-marker-alt text-${stage.color}-500 mr-1"></i>
-                                    ${day.route}
-                                </div>
-                            </div>
+      <div class="comparison-grid">
+        <div class="concept-card concept-card--isabella">
+          <p class="concept-card__title">Isabella 主廚——模組化廚房</p>
+          <p>Isabella 把廚房分成獨立的工作站：備料區、烹飪區、擺盤區，每個區域有明確的職責與流程。一開始建立這些分區需要額外的時間與規劃，看起來比直接開始做菜慢。但當訂單量增加時，每個工作站可以獨立運作、互不干擾，整體產出穩定且可擴展。</p>
+        </div>
 
-                            <!-- Timeline -->
-                            <div class="relative space-y-6 pl-2">
-                    `;
+        <div class="concept-card concept-card--vincent">
+          <p class="concept-card__title">Vincent 主廚——混亂廚房</p>
+          <p>Vincent 覺得分區太麻煩，所有食材和工具都混在一起，想到什麼就做什麼。一開始他確實出菜很快——不需要規劃，直接動手。但隨著菜單變複雜、訂單變多，他的廚房變成一團混亂：找不到食材、工具互相卡位、改一道菜的流程會影響其他所有菜。最終，他的出菜速度大幅下降，甚至開始出錯。</p>
+        </div>
+      </div>
 
-                    day.events.forEach(event => {
-                        let iconColor = 'text-slate-400';
-                        let iconBg = 'bg-slate-100';
-                        if(event.type === 'transport') { iconColor = 'text-blue-500'; iconBg = 'bg-blue-50'; }
-                        if(event.type === 'food') { iconColor = 'text-amber-500'; iconBg = 'bg-amber-50'; }
-                        if(event.type === 'activity') { iconColor = 'text-emerald-500'; iconBg = 'bg-emerald-50'; }
-                        if(event.type === 'hotel') { iconColor = 'text-indigo-500'; iconBg = 'bg-indigo-50'; }
+      <h3 class="content-section__subtitle">📉 沒有模組化的代價：速度曲線的真相</h3>
 
-                        html += `
-                                <div class="relative flex items-start gap-4 timeline-item z-10">
-                                    <div class="timeline-line"></div>
-                                    <div class="flex flex-col items-center w-12 flex-shrink-0 pt-1">
-                                        <span class="text-xs font-bold text-slate-400 mb-1">${event.time}</span>
-                                        <div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center z-10 ring-4 ring-white">
-                                            <i class="fas ${event.icon} ${iconColor} text-xs"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1 pt-1 pb-2">
-                                        <h3 class="font-bold text-slate-700 leading-tight">${event.title}</h3>
-                                        <p class="text-sm text-slate-500 mt-1 leading-relaxed">${event.desc}</p>
-                                    </div>
-                                </div>
-                        `;
-                    });
+      <p>在軟體開發中，這個模式不斷重演。沒有模組化的專案在初期可以有很高的 commit 速度——不需要思考架構，直接寫就對了。但隨著程式碼量增長，每一次修改都可能牽動其他部分，bug 越來越難追蹤，新功能的開發速度急劇下降。最終，這個專案變成一個沒人敢碰的「遺留系統」。</p>
 
-                    html += `
-                            </div>
-                        </div>
-                    `;
-                });
+      <div class="concept-card">
+        <p class="concept-card__title">模組化 vs 非模組化的速度曲線</p>
+        <ul>
+          <li><strong>初期</strong>：非模組化看似更快（不需要前期規劃），模組化需要投入時間設計邊界</li>
+          <li><strong>中期</strong>：非模組化開始減速（改動牽一髮動全身），模組化保持穩定產出</li>
+          <li><strong>後期</strong>：非模組化幾乎停滯（每次 commit 都是冒險），模組化依然可以持續迭代</li>
+          <li><strong>結論</strong>：模組化是對未來的投資，讓專案能真正成為可維護的產品</li>
+        </ul>
+      </div>
 
-                html += `</div>`;
-            });
+      <h3 class="content-section__subtitle">📊 Dan Sturtevant 的研究</h3>
 
-            container.innerHTML = html;
+      <div class="concept-card">
+        <p class="concept-card__title">9 倍離職率的警示</p>
+        <p>Dan Sturtevant 的研究發現，在高度耦合的程式碼庫中工作的工程師，其離職率是在模組化良好的程式碼庫中工作的工程師的 <strong>9 倍</strong>。糾纏不清的程式碼不僅降低生產力，更會消磨開發者的熱情與意志。模組化不只是技術問題，更是團隊健康與永續發展的關鍵。</p>
+      </div>
+
+      <h3 class="content-section__subtitle">🤖 AI 時代的模組化</h3>
+
+      <p>Alexander Embiricos 在開發 ChatGPT Codex 的過程中深刻體會到：當多個 AI agent 同時在同一個程式碼庫中工作時，模組化的程式碼結構讓 agent 能夠在獨立的模組中工作，大幅減少衝突與錯誤。</p>
+
+      <div class="highlight-box">
+        <p>模組化不是讓你一開始跑得更快，而是讓你能一直跑下去。在 AI 輔助開發的時代，清晰的模組邊界不僅幫助人類開發者，更讓 AI 工具能更有效地理解、修改和擴展你的程式碼。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7-3：（重新）擁抱學習 -->
+  <section id="section-7-3" class="content-section">
+    <div class="content-section__inner">
+      <h2 class="content-section__title">7-3（重新）擁抱學習</h2>
+
+      <p>在 AI 能夠生成程式碼的時代，「學習如何學習」成為最重要的元技能。技術會過時，但學習的能力永遠不會。</p>
+
+      <h3 class="content-section__subtitle">🍳 Isabella 主廚 vs Vincent 主廚——學習態度篇</h3>
+
+      <div class="comparison-grid">
+        <div class="concept-card concept-card--isabella">
+          <p class="concept-card__title">Isabella 主廚——持續學習者</p>
+          <p>Isabella 遇到不熟悉的食材或技法時，會主動研究、實驗、從失敗中學習。她不怕承認自己不會，反而把每一次挑戰當作成長的機會。當分子料理開始流行時，她立刻投入學習，很快就能將新技法融入自己的菜單。</p>
+        </div>
+
+        <div class="concept-card concept-card--vincent">
+          <p class="concept-card__title">Vincent 主廚——停止學習者</p>
+          <p>Vincent 覺得自己已經夠會做菜了，新的技法「沒必要學」。他停留在熟悉的舒適圈，重複做著同樣的菜色。當市場口味改變、新的烹飪趨勢出現時，他發現自己越來越跟不上，但已經失去了學習的習慣與動力。</p>
+        </div>
+      </div>
+
+      <h3 class="content-section__subtitle">📖 學習如何學習</h3>
+
+      <p>真正的學習不是被動地閱讀文件或觀看教學影片，而是主動地與知識互動。提出問題、動手實驗、從錯誤中反思——這些才是深度學習的核心。在 Vibe Coding 的時代，你不需要記住每一個 API，但你需要知道如何快速理解新概念並將其應用到實際問題中。</p>
+
+      <h3 class="content-section__subtitle">🎬 Gene 與 Steve 的 FFmpeg 故事</h3>
+
+      <div class="concept-card">
+        <p class="concept-card__title">從不會到精通的學習歷程</p>
+        <p>Gene 和 Steve 在面對 FFmpeg 這個複雜的多媒體處理工具時，並沒有試圖一次學會所有功能。他們從一個具體的問題出發，逐步探索、實驗，在解決實際問題的過程中自然而然地掌握了工具的使用方式。這個故事告訴我們：最好的學習發生在解決真實問題的過程中。</p>
+      </div>
+
+      <h3 class="content-section__subtitle">🎯 Anders Ericsson 的刻意練習四大支柱</h3>
+
+      <p>心理學家 Anders Ericsson 的研究揭示了從新手到專家的路徑，他提出了刻意練習的四大支柱：</p>
+
+      <ol>
+        <li><strong>專家指導（Expert Guidance）</strong>——向已經走過這條路的人學習，獲得針對性的建議與方向。在 AI 時代，AI 工具本身也可以成為一種「專家指導」的來源。</li>
+        <li><strong>快速回饋（Rapid Feedback）</strong>——建立高速驗證迴路，及時驗證 AI 工作或自己提示詞的效果。</li>
+        <li><strong>刻意練習（Deliberate Practice）</strong>——有目的地練習弱點，而不是重複已經會的東西。舒適圈之外才是成長發生的地方。例如改善提示詞或陌生的領域評估 AI 的輸出。</li>
+        <li><strong>任務挑戰（Challenging Tasks）</strong>——持續挑戰略高於目前能力的任務，保持在「學習區」而非「舒適區」或「恐慌區」。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Section 7-4：精進技術 -->
+  <section id="section-7-4" class="content-section">
+    <div class="content-section__inner">
+      <h2 class="content-section__title">7-4 精進技術</h2>
+
+      <p>技術的精進不僅僅是學習新工具或新語言，更重要的是找到驅動你持續前進的內在動力。讓我們再次回到兩位主廚的故事。</p>
+
+      <h3 class="content-section__subtitle">❤️ Isabella 的熱愛 vs Vincent 的謀生</h3>
+
+      <div class="comparison-grid">
+        <div class="concept-card concept-card--isabella">
+          <p class="concept-card__title">Isabella——為熱愛而烹飪</p>
+          <p>Isabella 對烹飪充滿熱情。她在休假時會研究新食材、嘗試新技法，不是因為被要求，而是因為她真心享受這個過程。這種內在驅動力讓她不斷突破自我，每一道菜都是一次創作。</p>
+        </div>
+
+        <div class="concept-card concept-card--vincent">
+          <p class="concept-card__title">Vincent——為生活而烹飪</p>
+          <p>Vincent 把烹飪視為一份工作。他按時上班、按食譜做菜、按時下班。他的技術停留在「夠用」的水平，缺乏探索與創新的動力。隨著時間推移，他與 Isabella 之間的差距越來越大。</p>
+        </div>
+      </div>
+
+      <h3 class="content-section__subtitle">🚀 熱情驅動技能發展</h3>
+
+      <p>在軟體開發中，同樣的模式不斷重演。那些對程式設計充滿熱情的開發者，會在工作之餘探索新技術、參與開源專案、閱讀技術文章。這不是因為他們「應該」這樣做，而是因為他們「想要」這樣做。</p>
+
+      <div class="highlight-box">
+        <p>熱情不是天生的，而是可以培養的。找到你真正感興趣的技術領域，從小專案開始，讓成就感成為持續學習的燃料。當你享受過程時，精進技術就不再是負擔，而是一種樂趣。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7-5：小結 -->
+  <section id="section-7-5" class="content-section">
+    <div class="content-section__inner">
+      <h2 class="content-section__title">7-5 小結</h2>
+
+      <p>第七章帶我們走過了在 AI 時代需要學習的核心技能。從快速回饋迴路到模組化系統，從擁抱學習到精進技術，這些能力構成了 Vibe Coding 開發者的基石。</p>
+
+      <blockquote>
+        「The best way to predict the future is to implement it.」（預測未來最好的方式就是去實現它。）
+        <cite>— Erik Meijer</cite>
+      </blockquote>
+
+      <p>Erik Meijer 的這句話完美地總結了本章的精神：不要只是被動地等待 AI 時代的到來，而是主動地裝備自己，成為能夠駕馭這個時代的開發者。</p>
+
+      <h3 class="content-section__subtitle">🌟 Vibe Coding 五大價值觀</h3>
+
+      <div class="values-list">
+        <div class="values-list__item">
+          <strong>1. 快速回饋</strong>——建立快速、頻繁的回饋迴路，讓每次迭代都成為學習的機會。
+        </div>
+        <div class="values-list__item">
+          <strong>2. 模組化思維</strong>——將複雜系統拆分為獨立模組，降低認知負擔，提升協作效率。
+        </div>
+        <div class="values-list__item">
+          <strong>3. 持續學習</strong>——培養「學習如何學習」的元技能，在快速變化的技術環境中保持競爭力。
+        </div>
+        <div class="values-list__item">
+          <strong>4. 熱情驅動</strong>——找到內在動力，讓技術精進成為一種樂趣而非負擔。
+        </div>
+        <div class="values-list__item">
+          <strong>5. 擁抱變化</strong>——以開放的心態面對 AI 帶來的變革，將其視為機會而非威脅。
+        </div>
+      </div>
+
+      <p>這些價值觀不僅適用於程式開發，更是在任何快速變化的領域中保持卓越的通用原則。帶著這些技能與心態，你已經準備好迎接 Vibe Coding 時代的挑戰。</p>
+    </div>
+  </section>
+
+  <!-- Quiz Section 測驗區 -->
+  <section id="quiz-section" class="quiz-section">
+    <div class="quiz-section__inner">
+      <h2 class="quiz-section__title">📝 章節測驗</h2>
+
+      <div class="quiz-question" data-question-index="0">
+        <p class="quiz-question__text">1. 在第七章的主廚故事中，Isabella 與 Vincent 最大的差異是什麼？</p>
+        <div class="quiz-question__options">
+          <button class="quiz-option-btn" data-question="0" data-option="0">A. Isabella 使用更高級的食材</button>
+          <button class="quiz-option-btn" data-question="0" data-option="1">B. Isabella 在烹飪過程中不斷建立回饋迴路，而 Vincent 只在最後才檢查成品</button>
+          <button class="quiz-option-btn" data-question="0" data-option="2">C. Vincent 的廚房設備比較老舊</button>
+          <button class="quiz-option-btn" data-question="0" data-option="3">D. Isabella 有更多年的烹飪經驗</button>
+        </div>
+      </div>
+
+      <div class="quiz-question" data-question-index="1">
+        <p class="quiz-question__text">2. 根據 Dan Sturtevant 的研究，在高度耦合的程式碼庫中工作的工程師，其離職率是模組化良好的程式碼庫中工程師的幾倍？</p>
+        <div class="quiz-question__options">
+          <button class="quiz-option-btn" data-question="1" data-option="0">A. 3 倍</button>
+          <button class="quiz-option-btn" data-question="1" data-option="1">B. 5 倍</button>
+          <button class="quiz-option-btn" data-question="1" data-option="2">C. 9 倍</button>
+          <button class="quiz-option-btn" data-question="1" data-option="3">D. 12 倍</button>
+        </div>
+      </div>
+
+      <div class="quiz-question" data-question-index="2">
+        <p class="quiz-question__text">3. Anders Ericsson 提出的刻意練習四大支柱，下列何者不包含在內？</p>
+        <div class="quiz-question__options">
+          <button class="quiz-option-btn" data-question="2" data-option="0">A. 專家指導</button>
+          <button class="quiz-option-btn" data-question="2" data-option="1">B. 快速回饋</button>
+          <button class="quiz-option-btn" data-question="2" data-option="2">C. 大量重複練習已熟悉的技能</button>
+          <button class="quiz-option-btn" data-question="2" data-option="3">D. 任務挑戰</button>
+        </div>
+      </div>
+
+      <div class="quiz-question" data-question-index="3">
+        <p class="quiz-question__text">4. 關於熱情與技能發展的關係，下列敘述何者最符合第七章的觀點？</p>
+        <div class="quiz-question__options">
+          <button class="quiz-option-btn" data-question="3" data-option="0">A. 只有天生對程式設計有熱情的人才能成為優秀的開發者</button>
+          <button class="quiz-option-btn" data-question="3" data-option="1">B. 熱情可以培養，內在驅動力讓技術精進成為樂趣而非負擔</button>
+          <button class="quiz-option-btn" data-question="3" data-option="2">C. 技能發展完全取決於工作年資，與熱情無關</button>
+          <button class="quiz-option-btn" data-question="3" data-option="3">D. 熱情會隨著時間自然消退，不需要刻意培養</button>
+        </div>
+      </div>
+
+      <div class="quiz-question" data-question-index="4">
+        <p class="quiz-question__text">5. Erik Meijer 的名言「The best way to predict the future is to implement it.」最能呼應 Vibe Coding 的哪個核心價值觀？</p>
+        <div class="quiz-question__options">
+          <button class="quiz-option-btn" data-question="4" data-option="0">A. 快速回饋</button>
+          <button class="quiz-option-btn" data-question="4" data-option="1">B. 模組化思維</button>
+          <button class="quiz-option-btn" data-question="4" data-option="2">C. 擁抱變化</button>
+          <button class="quiz-option-btn" data-question="4" data-option="3">D. 持續學習</button>
+        </div>
+      </div>
+
+      <div class="quiz-submit-area">
+        <button class="quiz-submit-btn" id="quiz-submit-btn">提交答案</button>
+        <p class="quiz-message" id="quiz-message"></p>
+      </div>
+
+      <div class="quiz-result" id="quiz-result"></div>
+    </div>
+  </section>
+
+  <!-- JavaScript 邏輯 -->
+  <script>
+    // ===== 題目資料結構 =====
+    var questions = [
+      {
+        id: 1,
+        text: '在第七章的主廚故事中，Isabella 與 Vincent 最大的差異是什麼？',
+        options: [
+          'Isabella 使用更高級的食材',
+          'Isabella 在烹飪過程中不斷建立回饋迴路，而 Vincent 只在最後才檢查成品',
+          'Vincent 的廚房設備比較老舊',
+          'Isabella 有更多年的烹飪經驗'
+        ],
+        correctIndex: 1
+      },
+      {
+        id: 2,
+        text: '根據 Dan Sturtevant 的研究，在高度耦合的程式碼庫中工作的工程師，其離職率是模組化良好的程式碼庫中工程師的幾倍？',
+        options: [
+          '3 倍',
+          '5 倍',
+          '9 倍',
+          '12 倍'
+        ],
+        correctIndex: 2
+      },
+      {
+        id: 3,
+        text: 'Anders Ericsson 提出的刻意練習四大支柱，下列何者不包含在內？',
+        options: [
+          '專家指導',
+          '快速回饋',
+          '大量重複練習已熟悉的技能',
+          '任務挑戰'
+        ],
+        correctIndex: 2
+      },
+      {
+        id: 4,
+        text: '關於熱情與技能發展的關係，下列敘述何者最符合第七章的觀點？',
+        options: [
+          '只有天生對程式設計有熱情的人才能成為優秀的開發者',
+          '熱情可以培養，內在驅動力讓技術精進成為樂趣而非負擔',
+          '技能發展完全取決於工作年資，與熱情無關',
+          '熱情會隨著時間自然消退，不需要刻意培養'
+        ],
+        correctIndex: 1
+      },
+      {
+        id: 5,
+        text: 'Erik Meijer 的名言「The best way to predict the future is to implement it.」最能呼應 Vibe Coding 的哪個核心價值觀？',
+        options: [
+          '快速回饋',
+          '模組化思維',
+          '擁抱變化',
+          '持續學習'
+        ],
+        correctIndex: 2
+      }
+    ];
+
+    // ===== 測驗狀態管理 =====
+    var quizState = {
+      questions: questions,
+      userAnswers: [
+        { questionId: 1, selectedIndex: -1 },
+        { questionId: 2, selectedIndex: -1 },
+        { questionId: 3, selectedIndex: -1 },
+        { questionId: 4, selectedIndex: -1 },
+        { questionId: 5, selectedIndex: -1 }
+      ],
+      isSubmitted: false,
+      result: null
+    };
+
+    // ===== 選擇答案函式 =====
+    function selectAnswer(questionIndex, optionIndex) {
+      try {
+        if (quizState.isSubmitted) return;
+        quizState.userAnswers[questionIndex].selectedIndex = optionIndex;
+
+        var questionEl = document.querySelector('.quiz-question[data-question-index="' + questionIndex + '"]');
+        if (!questionEl) return;
+        var buttons = questionEl.querySelectorAll('.quiz-option-btn');
+        buttons.forEach(function (btn) {
+          btn.classList.remove('selected');
+        });
+        var selectedBtn = questionEl.querySelector('.quiz-option-btn[data-option="' + optionIndex + '"]');
+        if (selectedBtn) {
+          selectedBtn.classList.add('selected');
         }
 
-        // Scroll Function
-        function scrollToStage(id) {
-            const element = document.getElementById(id);
-            if(element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+        var messageEl = document.getElementById('quiz-message');
+        if (messageEl) {
+          messageEl.textContent = '';
+        }
+      } catch (err) {
+        // 選擇答案時發生錯誤，不影響頁面其他功能
+      }
+    }
+
+    // ===== 驗證所有題目是否已作答 =====
+    function validateAllAnswered() {
+      return quizState.userAnswers.every(function (answer) {
+        return answer.selectedIndex !== -1;
+      });
+    }
+
+    // ===== 回饋訊息函式 =====
+    function getFeedbackMessage(score) {
+      if (score === 100) return '🎉 完美！你完全掌握了第七章的精髓！';
+      if (score >= 80) return '👏 很棒！你對這章的理解非常深入！';
+      if (score >= 60) return '👍 不錯！但還有一些概念可以再複習。';
+      return '💪 再加油！建議重新閱讀章節內容後再試一次。';
+    }
+
+    // ===== 計算分數函式 =====
+    function calculateScore() {
+      var correctCount = 0;
+      var answers = [];
+      for (var i = 0; i < quizState.questions.length; i++) {
+        var q = quizState.questions[i];
+        var ua = quizState.userAnswers[i];
+        var isCorrect = ua.selectedIndex === q.correctIndex;
+        if (isCorrect) correctCount++;
+        answers.push({
+          questionId: q.id,
+          selectedIndex: ua.selectedIndex,
+          correctIndex: q.correctIndex,
+          isCorrect: isCorrect
+        });
+      }
+      var totalScore = correctCount * 20;
+      return {
+        totalScore: totalScore,
+        answers: answers,
+        feedbackMessage: getFeedbackMessage(totalScore)
+      };
+    }
+
+    // ===== 顯示結果函式 =====
+    function showResult(result) {
+      try {
+        var resultEl = document.getElementById('quiz-result');
+        if (!resultEl) return;
+
+        var html = '';
+        html += '<div class="quiz-result__score">' + result.totalScore + ' 分</div>';
+        html += '<div class="quiz-result__feedback">' + result.feedbackMessage + '</div>';
+
+        for (var i = 0; i < result.answers.length; i++) {
+          var a = result.answers[i];
+          var q = quizState.questions[i];
+          var itemClass = a.isCorrect ? 'quiz-result__item quiz-result__item--correct' : 'quiz-result__item quiz-result__item--incorrect';
+          var indicator = a.isCorrect ? '✅' : '❌';
+
+          html += '<div class="' + itemClass + '">';
+          html += '<div class="quiz-result__item-header">';
+          html += '<span class="quiz-result__item-indicator">' + indicator + '</span>';
+          html += '<span>第 ' + (i + 1) + ' 題：' + q.text + '</span>';
+          html += '</div>';
+          html += '<div class="quiz-result__item-answer">你的答案：' + q.options[a.selectedIndex] + '</div>';
+          if (!a.isCorrect) {
+            html += '<div class="quiz-result__item-answer quiz-result__item-answer--correct">正確答案：' + q.options[a.correctIndex] + '</div>';
+          }
+          html += '</div>';
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', renderTrip);
+        html += '<div style="text-align: center;">';
+        html += '<button class="quiz-reset-btn" id="quiz-reset-btn">重新測驗</button>';
+        html += '</div>';
 
-    </script>
+        resultEl.innerHTML = html;
+        resultEl.style.display = 'block';
+
+        // 綁定重新測驗按鈕點擊事件
+        var resetBtn = document.getElementById('quiz-reset-btn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            resetQuiz();
+          });
+        }
+
+        // 標示選項按鈕的正確/錯誤狀態
+        for (var j = 0; j < result.answers.length; j++) {
+          var ans = result.answers[j];
+          var questionEl = document.querySelector('.quiz-question[data-question-index="' + j + '"]');
+          if (!questionEl) continue;
+
+          // 標示正確答案
+          var correctBtn = questionEl.querySelector('.quiz-option-btn[data-option="' + ans.correctIndex + '"]');
+          if (correctBtn) {
+            correctBtn.classList.add('correct');
+          }
+
+          // 標示使用者的錯誤選擇
+          if (!ans.isCorrect) {
+            var wrongBtn = questionEl.querySelector('.quiz-option-btn[data-option="' + ans.selectedIndex + '"]');
+            if (wrongBtn) {
+              wrongBtn.classList.add('incorrect');
+            }
+          }
+        }
+      } catch (err) {
+        // 顯示結果時發生錯誤，不影響頁面其他功能
+      }
+    }
+
+    // ===== 重新測驗函式 =====
+    function resetQuiz() {
+      try {
+        // 重置所有 userAnswers 的 selectedIndex 為 -1
+        for (var i = 0; i < quizState.userAnswers.length; i++) {
+          quizState.userAnswers[i].selectedIndex = -1;
+        }
+
+        // 設定 isSubmitted 為 false、result 為 null
+        quizState.isSubmitted = false;
+        quizState.result = null;
+
+        // 清除所有選項按鈕的選取與正確/錯誤狀態
+        document.querySelectorAll('.quiz-option-btn').forEach(function (btn) {
+          btn.classList.remove('selected', 'correct', 'incorrect');
+        });
+
+        // 隱藏結果區並清除內容
+        var resultEl = document.getElementById('quiz-result');
+        if (resultEl) {
+          resultEl.style.display = 'none';
+          resultEl.innerHTML = '';
+        }
+
+        // 清除提示訊息
+        var messageEl = document.getElementById('quiz-message');
+        if (messageEl) {
+          messageEl.textContent = '';
+        }
+
+        // 捲動回測驗區頂部
+        var quizSection = document.getElementById('quiz-section');
+        if (quizSection) {
+          quizSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      } catch (err) {
+        // 重置時發生錯誤，不影響頁面其他功能
+      }
+    }
+
+    // ===== 提交測驗函式 =====
+    function submitQuiz() {
+      try {
+        if (quizState.isSubmitted) return;
+
+        if (!validateAllAnswered()) {
+          var messageEl = document.getElementById('quiz-message');
+          if (messageEl) {
+            messageEl.textContent = '請回答所有題目後再提交';
+          }
+          return;
+        }
+
+        var result = calculateScore();
+        quizState.result = result;
+        quizState.isSubmitted = true;
+        showResult(result);
+      } catch (err) {
+        // 提交時發生錯誤，不影響頁面其他功能
+      }
+    }
+
+    // ===== 綁定提交按鈕點擊事件 =====
+    var submitBtn = document.getElementById('quiz-submit-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        submitQuiz();
+      });
+    }
+
+    // ===== 綁定選項按鈕點擊事件 =====
+    document.querySelectorAll('.quiz-option-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (quizState.isSubmitted) return;
+        var questionIndex = parseInt(this.getAttribute('data-question'), 10);
+        var optionIndex = parseInt(this.getAttribute('data-option'), 10);
+        selectAnswer(questionIndex, optionIndex);
+      });
+    });
+
+    // ===== 導覽列點擊平滑捲動 =====
+    document.querySelectorAll('.nav-bar__link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        try {
+          e.preventDefault();
+          var href = this.getAttribute('href');
+          if (!href) return;
+          var targetId = href.replace('#', '');
+          var targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        } catch (err) {
+          // 錯誤時不執行捲動，頁面內容仍可正常瀏覽
+        }
+      });
+    });
+
+    // ===== Intersection Observer 偵測目前可見章節 =====
+    try {
+      if ('IntersectionObserver' in window) {
+        var navLinks = document.querySelectorAll('.nav-bar__link');
+        var sections = document.querySelectorAll(
+          '#section-7-1, #section-7-2, #section-7-3, #section-7-4, #section-7-5'
+        );
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var sectionId = entry.target.id;
+              navLinks.forEach(function (link) {
+                if (link.getAttribute('href') === '#' + sectionId) {
+                  link.classList.add('active');
+                } else {
+                  link.classList.remove('active');
+                }
+              });
+            }
+          });
+        }, {
+          rootMargin: '-20% 0px -70% 0px',
+          threshold: 0
+        });
+
+        sections.forEach(function (section) {
+          observer.observe(section);
+        });
+
+        // ===== Section Entrance Animation Observer =====
+        var animTargets = document.querySelectorAll('.content-section__inner, .quiz-section__inner');
+        var animObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              animObserver.unobserve(entry.target);
+            }
+          });
+        }, {
+          rootMargin: '0px 0px -10% 0px',
+          threshold: 0.1
+        });
+
+        animTargets.forEach(function (target) {
+          animObserver.observe(target);
+        });
+      } else {
+        // Fallback: make all sections visible if IntersectionObserver not supported
+        document.querySelectorAll('.content-section__inner, .quiz-section__inner').forEach(function (el) {
+          el.classList.add('visible');
+        });
+      }
+    } catch (err) {
+      // Intersection Observer 不支援或發生錯誤時，確保內容可見
+      document.querySelectorAll('.content-section__inner, .quiz-section__inner').forEach(function (el) {
+        el.classList.add('visible');
+      });
+    }
+  </script>
+
 </body>
 </html>

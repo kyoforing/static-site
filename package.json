@@ -1,0 +1,9 @@
+{
+  "name": "vibe-coding-chapter7-interactive",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "vitest": "^3.2.1",
+    "fast-check": "^4.1.1"
+  }
+}
