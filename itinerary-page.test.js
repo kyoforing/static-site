@@ -49,6 +49,15 @@ describe('九份金瓜石行程頁', () => {
     expect(text).toContain('查證日');
   });
 
+  it('正確區分 2024 山陀兒災後平台管制與 2026 步道施工封閉', () => {
+    expect(text).toContain('2024 年山陀兒颱風');
+    expect(text).toContain('茶壺山登山口旁觀景平台目前暫停開放');
+    expect(text).toContain('9/13 在全面施工封閉前');
+    expect(html).toContain('https://newtaipei.travel/zh-tw/news/detail/1480');
+    expect(html).not.toContain('https://newtaipei.travel/zh-tw/news/detail/2820');
+    expect(text).not.toContain('2026/9/10 更新的瑞芳區茶壺山步道即日起緊急封閉步道');
+  });
+
   it('提供時間軸、行程卡片、登山段落、交通資訊與景點圖片來源', () => {
     expect(html).toContain('id="timeline"');
     expect(html).toContain('id="cards"');
