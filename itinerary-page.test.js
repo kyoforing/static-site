@@ -27,11 +27,10 @@ describe('九份金瓜石行程頁', () => {
     expect(text).toContain('緩慢金瓜石');
   });
 
-  it('呈現 2026/9/13 上午報時山與茶壺山健行安排', () => {
+  it('呈現 2026/9/13 上午報時山加選、黃金博物館與午餐安排', () => {
     expect(text).toContain('2026/9/13');
-    expect(text).toContain('上午走');
     expect(text).toContain('報時山');
-    expect(text).toContain('茶壺山');
+    expect(text).toContain('黃金博物館');
     expect(text).toContain('回住宿');
     expect(text).toContain('13:30');
     expect(text).toContain('迷迷路食堂');
@@ -41,7 +40,11 @@ describe('九份金瓜石行程頁', () => {
   it('保留可變資訊的提醒與查證日期', () => {
     expect(text).toContain('瑞芳');
     expect(text).toContain('陣雨');
-    expect(text).toContain('32°C');
+    expect(text).toContain('2026/9/11 查證更新');
+    expect(text).toContain('9/13 06:00-18:00');
+    expect(text).toContain('晴時多雲');
+    expect(text).toContain('24-30°C');
+    expect(text).toContain('前一晚至清晨');
     expect(text).toContain('9/15');
     expect(text).toContain('10/15');
     expect(text).toContain('封閉施工');
@@ -56,6 +59,17 @@ describe('九份金瓜石行程頁', () => {
     expect(html).toContain('https://newtaipei.travel/zh-tw/news/detail/1480');
     expect(html).not.toContain('https://newtaipei.travel/zh-tw/news/detail/2820');
     expect(text).not.toContain('2026/9/10 更新的瑞芳區茶壺山步道即日起緊急封閉步道');
+  });
+
+  it('以黃金博物館為 9/13 優先行程並提供天氣分流', () => {
+    expect(text).toContain('黃金博物館優先');
+    expect(text).toContain('天氣穩定：報時山＋黃金博物館');
+    expect(text).toContain('下雨或風大：黃金博物館');
+    expect(text).toContain('09:30-12:15');
+    expect(text).toContain('週日 09:30-18:00');
+    expect(text).toContain('一般門票 80 元');
+    expect(text).toContain('茶壺山不列入預設行程');
+    expect(html).toContain('https://www.gep.ntpc.gov.tw/xmdoc/cont?xsmsid=0G246368552167800609');
   });
 
   it('提供時間軸、行程卡片、登山段落、交通資訊與景點圖片來源', () => {
